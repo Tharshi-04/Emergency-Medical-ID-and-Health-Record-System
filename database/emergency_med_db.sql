@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(100) NOT NULL,
     email VARCHAR(190) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    is_admin TINYINT(1) NOT NULL DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
@@ -64,17 +63,20 @@ CREATE TABLE IF NOT EXISTS patient_profiles (
 -- 4. MEDICAL CONDITIONS TABLE
 -- =========================================
 
-CREATE TABLE IF NOT EXISTS medical_conditions (
+CREATE TABLE medical_conditions (
     condition_id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT NOT NULL,
-    condition_name VARCHAR(150) NOT NULL,
-    diagnosed_year SMALLINT,
-    notes TEXT,
+    condition_name VARCHAR(255) NOT NULL,
+    diagnosed_year YEAR NULL,
+    notes TEXT NULL,
+    medications TEXT NULL,
+    surgeries TEXT NULL,
 
+    CONSTRAINT fk_medical_conditions_patient
     FOREIGN KEY (patient_id)
-        REFERENCES patient_profiles(profile_id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB;
+    REFERENCES patient_profiles(profile_id)
+    ON DELETE CASCADE
+);
 
 
 -- =========================================
@@ -244,84 +246,9 @@ CREATE TABLE IF NOT EXISTS donor_request_responses (
     UNIQUE KEY unique_request_donor (request_id, donor_id)
 ) ENGINE=InnoDB;
 
-
 -- =========================================
--- 12. ORGAN REFERRALS TABLE
+-- 12. PASSWORD RESET TABLE
 -- =========================================
-
-CREATE TABLE IF NOT EXISTS organ_referrals (
-    referral_id INT AUTO_INCREMENT PRIMARY KEY,
-    request_id INT NOT NULL,
-    referred_to VARCHAR(200),
-    referral_method ENUM('email', 'manual') DEFAULT 'manual',
-
-    referral_status ENUM(
-        'pending',
-        'referred',
-        'closed'
-    ) DEFAULT 'pending',
-
-    notes TEXT,
-    referred_at DATETIME NULL,
-
-    FOREIGN KEY (request_id)
-        REFERENCES hospital_requests(request_id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-
--- =========================================
--- 13. PATIENT MEDICAL ACCESS REQUESTS
--- =========================================
-
-CREATE TABLE IF NOT EXISTS patient_access_requests (
-    access_request_id INT AUTO_INCREMENT PRIMARY KEY,
-    patient_id INT NOT NULL,
-    admin_user_id INT NOT NULL,
-    purpose TEXT NOT NULL,
-
-    request_status ENUM(
-        'pending',
-        'approved',
-        'rejected',
-        'revoked',
-        'expired'
-    ) DEFAULT 'pending',
-
-    requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    approved_at DATETIME NULL,
-    expires_at DATETIME NULL,
-
-    FOREIGN KEY (patient_id)
-        REFERENCES patient_profiles(profile_id)
-        ON DELETE CASCADE,
-
-    FOREIGN KEY (admin_user_id)
-        REFERENCES users(user_id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-
--- =========================================
--- 14. MEDICAL ACCESS AUDIT LOGS
--- =========================================
-
-CREATE TABLE IF NOT EXISTS medical_access_logs (
-    log_id INT AUTO_INCREMENT PRIMARY KEY,
-    access_request_id INT NOT NULL,
-    accessed_by INT NOT NULL,
-    action VARCHAR(100) NOT NULL,
-    accessed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (access_request_id)
-        REFERENCES patient_access_requests(access_request_id)
-        ON DELETE CASCADE,
-
-    FOREIGN KEY (accessed_by)
-        REFERENCES users(user_id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB;
-
 
 CREATE TABLE password_resets (
     reset_id INT AUTO_INCREMENT PRIMARY KEY,
