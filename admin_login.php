@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($username === "" || $password === "") {
         $error = "Please enter your username and password.";
     } else {
+        
 
         $admin_username = "admin123@gmail.com";
         $admin_password = "Admin@123";
@@ -31,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
+    
 
 <!DOCTYPE html>
 <html lang="en">
@@ -97,6 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 padding: 25px 18px;
             }
         }
+        
     </style>
 </head>
 
@@ -128,6 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <form method="POST" action="admin_login.php">
 
+            
             <div class="form-group">
                 <label for="username">Admin Username</label>
                 <input
