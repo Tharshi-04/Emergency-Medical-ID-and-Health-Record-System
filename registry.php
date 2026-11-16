@@ -1,9 +1,11 @@
 
 <?php
+// Start the session to access logged-in user information
 session_start();
 
 require_once "config/db.php";
 
+// Check whether the user is logged in
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit();
@@ -36,6 +38,7 @@ $patient_id = $patient["profile_id"];
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
+    // Check the selected blood and organ donor options
     $is_blood_donor = isset($_POST["is_blood_donor"]) ? 1 : 0;
     $is_organ_donor = isset($_POST["is_organ_donor"]) ? 1 : 0;
 
@@ -44,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ? $_POST["last_donated_date"]
         : null;
 
+    // Validate the district and donation date
     if ($district === "") {
         $error = "Please select your district.";
     } elseif (
