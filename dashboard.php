@@ -5,6 +5,7 @@ session_start();
 if (!isset($_SESSION["user_id"]) || ($_SESSION["role"] ?? "") !== "patient") {
     header("Location: login.php");
     exit;
+    
 }
 
 $username = htmlspecialchars($_SESSION["username"] ?? "Patient");
@@ -131,6 +132,7 @@ $username = htmlspecialchars($_SESSION["username"] ?? "Patient");
             gap: 20px;
             border-bottom: 1px solid #e5ebf1;
         }
+        
 
         .topbar-title h1 {
             margin: 0;
@@ -266,7 +268,7 @@ $username = htmlspecialchars($_SESSION["username"] ?? "Patient");
             background: #108580;
         }
 
-        /* Footer */
+        
         .dashboard-footer {
             padding: 20px 35px;
             text-align: center;
@@ -276,12 +278,13 @@ $username = htmlspecialchars($_SESSION["username"] ?? "Patient");
             background: #ffffff;
         }
 
-        /* Responsive design */
+        
         @media (max-width: 1050px) {
             .dashboard-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
+        
 
         @media (max-width: 750px) {
             .patient-layout {
