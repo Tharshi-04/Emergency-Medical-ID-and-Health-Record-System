@@ -8,9 +8,10 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+
 $user_id = (int)$_SESSION['user_id'];
 
-// Check patient role
+
 $role_sql = "SELECT role FROM user_roles WHERE user_id = ? AND role = 'patient'";
 $role_stmt = $conn->prepare($role_sql);
 $role_stmt->bind_param("i", $user_id);
@@ -138,7 +139,7 @@ if (isset($_GET['delete'])) {
     }
 }
 
-// Get contact for editing
+
 $edit_contact = null;
 
 if (isset($_GET['edit'])) {
@@ -349,6 +350,7 @@ $contacts = $stmt->get_result();
             </label>
 
             <br><br>
+            
 
             <button type="submit" name="save_contact" class="save-btn">
                 <?php echo $edit_contact ? "Update Contact" : "Add Contact"; ?>
