@@ -8,6 +8,7 @@ if (!isset($_SESSION["user_id"]) || ($_SESSION["role"] ?? "") !== "patient") {
     exit;
 }
 
+
 $user_id = (int)$_SESSION["user_id"];
 $error = "";
 $success = "";
@@ -270,7 +271,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["save_profile"])) {
 
     } else {
 
-        // Validate diagnosed years
+      
         foreach ($diagnosed_years as $year) {
             if (
                 $year !== "" &&
@@ -282,6 +283,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["save_profile"])) {
                 break;
             }
         }
+        
 
         if ($error === "") {
 
