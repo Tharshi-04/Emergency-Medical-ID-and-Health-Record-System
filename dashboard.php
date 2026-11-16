@@ -10,6 +10,7 @@ if (!isset($_SESSION["user_id"]) || ($_SESSION["role"] ?? "") !== "patient") {
 $username = htmlspecialchars($_SESSION["username"] ?? "Patient");
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,6 +92,8 @@ $username = htmlspecialchars($_SESSION["username"] ?? "Patient");
             font-size: 15px;
             transition: 0.2s;
         }
+
+        
         
 
         .sidebar-menu a:hover,
@@ -297,6 +300,7 @@ $username = htmlspecialchars($_SESSION["username"] ?? "Patient");
             .sidebar-brand {
                 padding-bottom: 15px;
             }
+            
 
             .sidebar-menu {
                 margin-top: 15px;
@@ -409,7 +413,7 @@ $username = htmlspecialchars($_SESSION["username"] ?? "Patient");
     <!-- Main Dashboard -->
     <div class="patient-main">
 
-        <!-- Top Header -->
+        
         <header class="patient-topbar">
 
             <div class="topbar-title">
