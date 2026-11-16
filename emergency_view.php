@@ -10,6 +10,7 @@ $allergies = [];
 $contacts = [];
 $error_message = "";
 
+// Validate the QR token before retrieving patient information
 if ($token === "" || !preg_match('/^[a-f0-9]{64}$/', $token)) {
     $error_message = "Invalid or unavailable QR code.";
 } else {
@@ -34,6 +35,8 @@ if ($token === "" || !preg_match('/^[a-f0-9]{64}$/', $token)) {
         $error_message = "This QR code is invalid or no longer available.";
     } else {
 
+    // Get the patient ID from the retrieved profile
+        $patient_id = (int) $profile['profile_id'];
         $patient_id = (int) $profile['profile_id'];
 
         // Get medical conditions, medications and surgeries
