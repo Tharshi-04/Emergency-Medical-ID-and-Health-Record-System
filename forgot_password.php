@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $message = "Please enter a valid email address.";
     } else {
+        
 
         $stmt = $conn->prepare(
             "SELECT user_id FROM users WHERE email = ?"
@@ -33,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $delete->bind_param("i", $user['user_id']);
             $delete->execute();
 
-            // Generate a secure reset token.
+            
             $token = bin2hex(random_bytes(32));
             $hashedToken = hash('sha256', $token);
 
@@ -44,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 (user_id, reset_token, expires_at)
                 VALUES (?, ?, ?)"
             );
+            
 
             $insert->bind_param(
                 "iss",
@@ -126,6 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             border-radius: 7px;
             cursor: pointer;
         }
+    
 
         .message {
             background: #E8F7EF;
