@@ -9,6 +9,8 @@ $username = "";
 $email = "";
 $role = "";
 
+
+// Check whether the form is submitted using POST method
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $username = trim($_POST["username"] ?? "");
@@ -17,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $confirm_password = $_POST["confirm_password"] ?? "";
     $role = $_POST["role"] ?? "";
 
+     // Validate whether all required fields are filled
     if ($username === "" || $email === "" || $password === "" || $confirm_password === "" || $role === "") {
         $error = "Please fill in all fields.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -29,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error = "Please select a valid account type.";
     } else {
 
+          // Prepare SQL query to check existing email or username
         $check = $conn->prepare(
             "SELECT user_id FROM users WHERE email = ? OR username = ?"
         );
@@ -39,7 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $check->bind_param("ss", $email, $username);
             $check->execute();
             $result = $check->get_result();
-
+            
+            // Check whether the email or username already exists
             if ($result->num_rows > 0) {
                 $error = "Email or username already exists.";
             } else {
@@ -58,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         throw new Exception("Unable to prepare user registration.");
                     }
 
+                     // Bind username, email and password hash
                     $insertUser->bind_param(
                         "sss",
                         $username,
@@ -88,6 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     $conn->commit();
 
+                     // Clear form fields after successful registration
                     $success = "Registration successful! You can now login.";
                     $username = "";
                     $email = "";
