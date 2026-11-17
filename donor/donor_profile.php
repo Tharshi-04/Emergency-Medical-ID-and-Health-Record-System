@@ -30,12 +30,13 @@ $donor_id = $donor['donor_id'] ?? null;
 // Get existing donation preferences
 $registry = null;
 
-if ($donor_id) {
-    $stmt = $conn->prepare(
-        "SELECT is_blood_donor, is_organ_donor, district,
-                last_donated_date, share_contact_on_accept, is_active
-         FROM donor_registry
-         WHERE donor_id = ?"
+if ($donor_id) 
+    {
+        $stmt = $conn->prepare(
+            "SELECT is_blood_donor, is_organ_donor, district,
+                    last_donated_date, share_contact_on_accept, is_active
+            FROM donor_registry
+            WHERE donor_id = ?"
     );
     $stmt->bind_param("i", $donor_id);
     $stmt->execute();
