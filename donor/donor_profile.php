@@ -38,6 +38,7 @@ if ($donor_id)
             FROM donor_registry
             WHERE donor_id = ?"
     );
+    
     $stmt->bind_param("i", $donor_id);
     $stmt->execute();
     $registry = $stmt->get_result()->fetch_assoc();
