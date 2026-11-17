@@ -8,17 +8,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $email = trim($_POST["email"] ?? "");
     $password = $_POST["password"] ?? "";
-
+  // Check whether email or password fields are empty
     if ($email === "" || $password === "") {
         $error = "Please enter your email and password.";
     } else {
 
+        // Prepare SQL query to find the user by email
         $stmt = $conn->prepare(
             "SELECT user_id, username, email, password_hash
              FROM users
              WHERE email = ?"
         );
 
+        // Verify the entered password with the stored password hash
         if (!$stmt) {
             $error = "Unable to process login. Please try again.";
         } else {
@@ -31,11 +33,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($result->num_rows === 1) {
 
                 $user = $result->fetch_assoc();
-
+                
+                // Verify the entered password with the stored password hash
                 if (password_verify($password, $user["password_hash"])) {
 
                     session_regenerate_id(true);
 
+                   // Store user information in session variables
                     $_SESSION["user_id"] = $user["user_id"];
                     $_SESSION["username"] = $user["username"];
                     $_SESSION["email"] = $user["email"];
