@@ -4,10 +4,11 @@ session_start();
 require_once "../config/db.php";
 
 if (!isset($_SESSION['user_id']) ||
-    ($_SESSION['role'] ?? '') !== 'donor') {
-    header("Location: ../login.php");
-    exit();
-}
+    ($_SESSION['role'] ?? '') !== 'donor') 
+    {
+        header("Location: ../login.php");
+        exit();
+    }
 
 $user_id = (int)$_SESSION['user_id'];
 
